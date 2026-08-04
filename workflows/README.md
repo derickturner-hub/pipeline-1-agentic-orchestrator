@@ -1,7 +1,17 @@
-# n8n Agentic Workflows
+# Enterprise RevOps Agentic Pipeline
 
-This directory holds exported n8n workflow JSON templates for the RevOps pipeline.
+An autonomous, multi-agent pipeline leveraging Claude (Anthropic) and n8n to research, draft, optimize, and distribute SEO and RevOps content at enterprise scale.
 
-- `01_keyword_intent.json`: Market and SEO intent scraper workflow.
-- `02_content_generation.json`: Autonomous drafting and editing workflow using Claude 3.5 Sonnet.
-- `03_revops_qa_schema.json`: Schema validation and output payload dispatcher.
+## Architecture & Workflow Overview
+- **Orchestration:** n8n (Docker / Cloud)
+- **Reasoning Engine:** Claude 3.5 Sonnet & Claude 3 Haiku API
+- **Target Audience:** Roofing and Home Services Contractors (JobNimbus Ecosystem)
+
+## Project Structure
+```text
+enterprise-revops-agentic-pipeline/
+├── prompts/              # System prompts & agent persona templates
+├── workflows/            # Exportable n8n workflow JSON files
+├── schemas/              # JSON Schema definitions for webhooks and payloads
+├── docs/                 # Interoperability & API handoff documentation
+└── README.md             # Repository documentation
