@@ -1,30 +1,58 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "RevOpsContentPayload",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgencyClientDeliverablePayload",
   "type": "object",
+  "required": [
+    "client_meta",
+    "keyword_analysis",
+    "deliverable_config"
+  ],
   "properties": {
-    "id": { "type": "string" },
-    "timestamp": { "type": "string", "format": "date-time" },
-    "metadata": {
+    "client_meta": {
       "type": "object",
+      "required": ["client_id", "client_name", "target_location", "ghl_location_id", "cms_type"],
       "properties": {
-        "target_keyword": { "type": "string" },
-        "primary_persona": { "type": "string" },
-        "funnel_stage": { "type": "string" }
-      },
-      "required": ["target_keyword", "primary_persona", "funnel_stage"]
+        "client_id": { "type": "string", "example": "cli_bravebird_001" },
+        "client_name": { "type": "string", "example": "Brave Bird Roofing" },
+        "target_location": { "type": "string", "example": "Fullerton, CA" },
+        "ghl_location_id": { "type": "string", "example": "loc_ghl_987654321" },
+        "cms_type": { "type": "string", "enum": ["webflow", "wordpress"] },
+        "webflow_collection_id": { "type": "string", "example": "69ba02eb7071eb030719ccad" },
+        "wordpress_site_url": { "type": "string", "example": "https://awsrestorations.com" },
+        "domain": { "type": "string", "example": "https://callbravebird.com" }
+      }
     },
-    "content": {
+    "deliverable_config": {
       "type": "object",
+      "required": ["asset_type", "target_month"],
       "properties": {
-        "title": { "type": "string" },
-        "slug": { "type": "string" },
-        "meta_description": { "type": "string" },
-        "markdown_body": { "type": "string" },
-        "schema_json_ld": { "type": "object" }
-      },
-      "required": ["title", "slug", "markdown_body"]
+        "asset_type": { 
+          "type": "string", 
+          "enum": ["city_service_page", "blog_post", "content_refresh", "gbp_post"] 
+        },
+        "target_month": { "type": "string", "example": "2026-09" }
+      }
+    },
+    "keyword_analysis": {
+      "type": "object",
+      "required": [
+        "keyword",
+        "search_intent",
+        "target_persona",
+        "revops_stage",
+        "content_pillars",
+        "revops_impact_score",
+        "recommended_angle"
+      ],
+      "properties": {
+        "keyword": { "type": "string" },
+        "search_intent": { "type": "string" },
+        "target_persona": { "type": "string" },
+        "revops_stage": { "type": "string" },
+        "content_pillars": { "type": "array", "items": { "type": "string" } },
+        "revops_impact_score": { "type": "number" },
+        "recommended_angle": { "type": "string" }
+      }
     }
-  },
-  "required": ["id", "timestamp", "metadata", "content"]
+  }
 }
