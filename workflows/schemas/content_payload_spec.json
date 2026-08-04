@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RevOpsContentPayload",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "target_keyword": { "type": "string" },
+        "primary_persona": { "type": "string" },
+        "funnel_stage": { "type": "string" }
+      },
+      "required": ["target_keyword", "primary_persona", "funnel_stage"]
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "meta_description": { "type": "string" },
+        "markdown_body": { "type": "string" },
+        "schema_json_ld": { "type": "object" }
+      },
+      "required": ["title", "slug", "markdown_body"]
+    }
+  },
+  "required": ["id", "timestamp", "metadata", "content"]
+}
