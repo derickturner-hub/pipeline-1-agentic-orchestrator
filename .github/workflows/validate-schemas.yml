@@ -1,0 +1,33 @@
+name: CI/CD Schema Guardrails Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-schemas:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/node-dev@v4
+        with:
+          node-version: '20'
+
+      - name: Install Ajv JSON Schema Validator
+        run: npm install -g ajv-cli ajv-formats
+
+      - name: Validate Keyword Intent Schema Contract
+        run: |
+          echo "Validating keyword_intent.schema.json..."
+          ajv compile -s schemas/keyword_intent.schema.json --spec=draft2020 --all-errors
+
+      - name: Validate Content Intelligence Schema Contract
+        run: |
+          echo "Validating content_intelligence.schema.json..."
+          ajv compile -s schemas/content_intelligence.schema.json --spec=draft2020 --all-errors
