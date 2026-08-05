@@ -1,0 +1,125 @@
+{
+  "name": "Enterprise RevOps Agentic Execution Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "revops-pipeline-trigger",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook Ingestion Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "id": "2",
+      "name": "Agent 1: Keyword & Intent Engine",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate LLM output against JSON Schema contract\nconst schema = require('../schemas/keyword_intent.schema.json');\nreturn items;"
+      },
+      "id": "3",
+      "name": "Parser 1: Validate Keyword Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "id": "4",
+      "name": "Agent 2: Content Intelligence Engine",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Strip markdown blocks and enforce key-value schema contract\nconst schema = require('../schemas/content_intelligence.schema.json');\nreturn items;"
+      },
+      "id": "5",
+      "name": "Parser 2: Validate Content Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [980, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $env.PRIMARY_STAGING_ADAPTER }}",
+              "value2": "MULTI_CHANNEL"
+            }
+          ]
+        }
+      },
+      "id": "6",
+      "name": "Router: Multi-Channel Fulfillment",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.clickup.com/api/v2/list/{{ $env.CLICKUP_LIST_ID }}/task",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "id": "7",
+      "name": "Adapter: ClickUp Staging Task",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1420, 200]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.JIRA_HOST }}/rest/api/3/issue",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "id": "8",
+      "name": "Adapter: Jira Work Item",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1420, 400]
+    }
+  ],
+  "connections": {
+    "Webhook Ingestion Trigger": {
+      "main": [[{ "node": "Agent 1: Keyword & Intent Engine", "type": "main", "index": 0 }]]
+    },
+    "Agent 1: Keyword & Intent Engine": {
+      "main": [[{ "node": "Parser 1: Validate Keyword Contract", "type": "main", "index": 0 }]]
+    },
+    "Parser 1: Validate Keyword Contract": {
+      "main": [[{ "node": "Agent 2: Content Intelligence Engine", "type": "main", "index": 0 }]]
+    },
+    "Agent 2: Content Intelligence Engine": {
+      "main": [[{ "node": "Parser 2: Validate Content Contract", "type": "main", "index": 0 }]]
+    },
+    "Parser 2: Validate Content Contract": {
+      "main": [[{ "node": "Router: Multi-Channel Fulfillment", "type": "main", "index": 0 }]]
+    },
+    "Router: Multi-Channel Fulfillment": {
+      "main": [
+        [{ "node": "Adapter: ClickUp Staging Task", "type": "main", "index": 0 }],
+        [{ "node": "Adapter: Jira Work Item", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}
