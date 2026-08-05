@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KeywordIntentContract",
+  "description": "Enforces domain boundaries and structural normalization for Home Exterior services.",
+  "type": "object",
+  "properties": {
+    "primary_keyword": {
+      "type": "string",
+      "description": "Normalized target primary keyword."
+    },
+    "vertical": {
+      "type": "string",
+      "enum": ["roofing", "siding", "gutters", "solar", "fencing", "decks"],
+      "description": "Strict exterior home services vertical constraint."
+    },
+    "search_intent": {
+      "type": "string",
+      "enum": ["transactional", "informational", "commercial", "navigational"],
+      "description": "Determined SEO search intent category."
+    },
+    "geo_target": {
+      "type": "object",
+      "properties": {
+        "city": { "type": "string" },
+        "state_abbr": { 
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 2,
+          "pattern": "^[A-Z]{2}$"
+        }
+      },
+      "required": ["city", "state_abbr"],
+      "additionalProperties": false
+    },
+    "is_valid_vertical": {
+      "type": "boolean",
+      "description": "Hardened guardrail flag. Evaluates to false if non-exterior home service is detected."
+    }
+  },
+  "required": [
+    "primary_keyword",
+    "vertical",
+    "search_intent",
+    "geo_target",
+    "is_valid_vertical"
+  ],
+  "additionalProperties": false
+}
