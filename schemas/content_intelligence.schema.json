@@ -1,58 +1,32 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ContentIntelligenceContract",
-  "description": "Schema governing structured multi-asset content deliverables for ClickUp QA staging.",
   "type": "object",
-  "properties": {
-    "hero_h1": {
-      "type": "string",
-      "description": "High-converting main page heading."
-    },
-    "hero_subheading": {
-      "type": "string",
-      "description": "Supporting context line for H1."
-    },
-    "aio_direct_answer": {
-      "type": "string",
-      "description": "GEO/AIO optimized direct search answer paragraph."
-    },
-    "meta_title": {
-      "type": "string",
-      "maxLength": 60,
-      "description": "SEO Page Title tag."
-    },
-    "meta_description": {
-      "type": "string",
-      "maxLength": 160,
-      "description": "SEO Meta Description tag."
-    },
-    "post_body_html": {
-      "type": "string",
-      "description": "Structured HTML body payload with semantic headings."
-    },
-    "head_schema": {
-      "type": "string",
-      "description": "JSON-LD Article/Service structured data script block."
-    },
-    "body_schema": {
-      "type": "string",
-      "description": "JSON-LD FAQPage/LocalBusiness structured data script block."
-    },
-    "gbp_micro_post": {
-      "type": "string",
-      "description": "Localized Google Business Profile micro-update draft."
-    }
-  },
   "required": [
-    "hero_h1",
-    "hero_subheading",
-    "aio_direct_answer",
     "meta_title",
     "meta_description",
-    "post_body_html",
-    "head_schema",
-    "body_schema",
-    "gbp_micro_post"
+    "slug",
+    "aio_quick_answer",
+    "html_body",
+    "schema_json_ld",
+    "distribution_hooks"
   ],
+  "properties": {
+    "meta_title": { "type": "string", "maxLength": 70 },
+    "meta_description": { "type": "string", "maxLength": 170 },
+    "slug": { "type": "string" },
+    "aio_quick_answer": { "type": "string" },
+    "html_body": { "type": "string" },
+    "schema_json_ld": { "type": "object" },
+    "distribution_hooks": {
+      "type": "object",
+      "required": ["social_summary", "crm_stage_notes"],
+      "properties": {
+        "social_summary": { "type": "string" },
+        "crm_stage_notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
   "additionalProperties": false
 }
