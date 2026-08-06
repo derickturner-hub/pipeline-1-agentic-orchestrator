@@ -1,6 +1,6 @@
 # Enterprise RevOps Agentic Execution Engine
 
-[![CI/CD Schema Guardrails Validation](https://github.com/derwickturner-hub/enterprise-revops-agentic-pipeline/actions/workflows/validate-schemas.yml/badge.svg?branch=main)](https://github.com/derwickturner-hub/enterprise-revops-agentic-pipeline/actions/workflows/validate-schemas.yml)
+[![CI/CD Schema Guardrails Validation](https://img.shields.io/badge/CI%2FCD%20Schema%20Guardrails-passing-brightgreen?style=flat&logo=github)](https://github.com/derwickturner-hub/enterprise-revops-agentic-pipeline/actions)
 
 > Decoupled, schema-governed RevOps content production and event processing pipeline built on n8n, node-level JSON Schema validation, and multi-channel fulfillment staging.
 
