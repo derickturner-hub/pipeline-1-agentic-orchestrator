@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DLQQuarantineEvent",
+  "type": "object",
+  "properties": {
+    "quarantine_id": { "type": "string" },
+    "original_event_id": { "type": "string" },
+    "failed_at": { "type": "string", "format": "date-time" },
+    "error_details": {
+      "type": "object",
+      "properties": {
+        "failed_schema_path": { "type": "string" },
+        "validation_message": { "type": "string" }
+      },
+      "required": ["validation_message"]
+    },
+    "raw_payload": { "type": "object" },
+    "status": { "type": "string", "enum": ["QUARANTINED", "RESOLVED", "IGNORED"] }
+  },
+  "required": ["quarantine_id", "failed_at", "error_details", "raw_payload", "status"]
+}
